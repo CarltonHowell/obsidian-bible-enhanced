@@ -1,4 +1,83 @@
-/* Sets all the text color to red! */
 body {
-    color: red;
+	--verse-width: 28px;
+}
+
+/* Verse Numbers */
+
+.file-scripture,
+.internal-embed[src*="Scripture"] markdown-preview-view {
+	padding: 20px 40px !important;
+}
+
+.file-scripture h6,
+.internal-embed[src*="Scripture"] h6 {
+	position: relative;
+	left: calc(var(--verse-width) * -1);
+	text-align: right;
+	width: 20px;
+	top: 26px;
+	line-height: 0px;
+	margin-top: -20px;
+	margin-right: 3px;
+	font-family: var(--font-family-preview);
+	font-weight: 500;
+	font-size: 10px;
+	font-weight: bold;
+	color: var(--text-faint) !important;
+}
+
+/* Verse Embeds */
+
+.internal-embed[src*="Scripture"] + br {
+	display: none;
+}
+
+.internal-embed[src*="Scripture"] .markdown-preview-view {
+	padding: 20px 18px 14px var(--verse-width) !important;
+}
+
+.internal-embed[src*="Scripture"]:not(:first-of-type) .markdown-preview-view {
+	padding-top: 0px !important;
+}
+
+.internal-embed[src*="Scripture"] + br + .internal-embed[src*="Scripture"],
+.internal-embed[src*="Scripture"] + .internal-embed[src*="Scripture"] {
+	margin-top: -29px;
+}
+
+.internal-embed[src*="Scripture"]
+	+ br
+	+ .internal-embed[src*="Scripture"]
+	.markdown-embed,
+.internal-embed[src*="Scripture"]
+	+ .internal-embed[src*="Scripture"]
+	.markdown-embed {
+	border-top-color: var(--background-primary);
+}
+
+.internal-embed[src*="Scripture"] .markdown-embed-link {
+	top: 20px;
+	right: 0;
+}
+
+.internal-embed[src*="Scripture"] .markdown-embed-link svg {
+	width: 14px;
+}
+
+.internal-embed[src*="Scripture"]
+	+ br
+	+ .internal-embed[src*="Scripture"]
+	.markdown-embed-link,
+.internal-embed[src*="Scripture"]
+	+ .internal-embed[src*="Scripture"]
+	.markdown-embed-link {
+	top: 0;
+}
+
+.internal-embed[src*="Scripture"] .markdown-embed-content p:first-of-type {
+	margin-top: 6px;
+}
+
+.internal-embed[src*="Scripture"] .markdown-embed-content p:last-of-type {
+	margin-bottom: 6px;
 }
