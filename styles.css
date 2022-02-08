@@ -4,11 +4,13 @@ body {
 
 /* Verse Numbers */
 
+.popover .markdown-preview-view,
 .file-scripture,
-.internal-embed[src*="Scripture"] markdown-preview-view {
+.internal-embed[src*="Scripture"] .markdown-preview-view {
 	padding: 20px 40px !important;
 }
 
+.popover .markdown-preview-view h6,
 .file-scripture h6,
 .internal-embed[src*="Scripture"] h6 {
 	position: relative;
@@ -80,4 +82,10 @@ body {
 
 .internal-embed[src*="Scripture"] .markdown-embed-content p:last-of-type {
 	margin-bottom: 6px;
+}
+
+/* Other */
+
+.markdown-preview-view em {
+	color: var(--text-muted);
 }

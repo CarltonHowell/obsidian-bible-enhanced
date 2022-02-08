@@ -22,22 +22,15 @@ export default class ObsidianBiblePlugin extends Plugin {
 		 * e.g. Scripture/KJV/Philippians/Phil 4#5 becomes Phil 4:5
 		 */
 		this.registerMarkdownPostProcessor((postProcessor) => {
-			[...postProcessor.querySelectorAll("a")]
-				.filter((element) =>
-					element.innerText.contains(
-						`${this.settings.scriptureFolder}/`
-					)
-				)
-				.forEach((element) => {
-					const regex = new RegExp(
-						`${this.settings.scriptureFolder}.*\/`,
-						"g"
-					);
-					element.innerText = element.innerText
-						.replace(regex, "")
-						.replace(" > ", ":");
-				});
+			postProcessor.querySelectorAll("a").forEach((element) => {
+				this.formatVerseLink(element);
+			});
 		});
+
+		// Register a format backlinks function run every 1 second
+		this.registerInterval(
+			window.setInterval(this.formatBacklinks.bind(this), 1000)
+		);
 	}
 
 	async loadSettings() {
@@ -50,6 +43,33 @@ export default class ObsidianBiblePlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	formatVerseLink(element: HTMLElement, isEmbed?: boolean) {
+		element.addClass("be__formatted");
+
+		if (!element.innerText.contains(`${this.settings.scriptureFolder}/`)) {
+			return;
+		}
+
+		const regex = new RegExp(`${this.settings.scriptureFolder}.*\/`, "g");
+		element.innerText = element.innerText
+			.replace(regex, "")
+			.replace(" > ", ":");
+		if (isEmbed) {
+			element.innerText = element.innerText.replace("#", ":");
+			element.innerText = element.innerText.replace(/\[|\]/g, "");
+		}
+	}
+
+	formatBacklinks(): void {
+		this.app.workspace.containerEl
+			.querySelectorAll<HTMLElement>(
+				".search-result-file-match span:not(.be__formatted)"
+			)
+			.forEach((element) => {
+				this.formatVerseLink(element, true);
+			});
 	}
 }
 
